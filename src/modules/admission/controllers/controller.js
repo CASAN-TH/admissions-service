@@ -117,3 +117,38 @@ exports.delete = function (req, res) {
         };
     });
 };
+
+exports.webhook = function(req,res){
+    
+    var newAdmission = new Admission ({
+        class: req.body.queryResult.parameters.classType,
+        prefix: "-",
+        firstname: req.body.queryResult.parameters.studentname.split(' ')[0],
+        lastname: req.body.queryResult.parameters.studentname.split(' ')[1],
+        identificationnumber: req.body.queryResult.parameters.identificationID,
+        birthday:"-",
+        sex:"-",
+        fatherfullname: req.body.queryResult.parameters.fathername,
+        motherfullname: req.body.queryResult.parameters.mothername,
+        phonenumber:"-"
+    });
+    newAdmission.createby = req.user;
+    newAdmission.school = req.user.ref1;
+    newAdmission.save(function (err, data) {
+        if (err) {
+            return res.status(400).send({
+                status: 400,
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            res.jsonp({
+                status: 200,
+                data: data
+            });
+            /**
+             * Message Queue
+             */
+            // mq.publish('exchange', 'keymsg', JSON.stringify(newOrder));
+        };
+    });
+};
