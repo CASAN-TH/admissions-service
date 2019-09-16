@@ -23,6 +23,10 @@ exports.invokeRolesPolicies = function() {
         {
           resources: "/api/admissions/:admissionId",
           permissions: "*"
+        },
+        {
+          resources: "/api/admissions/bot/webhook",
+          permissions: "*"
         }
       ]
     }

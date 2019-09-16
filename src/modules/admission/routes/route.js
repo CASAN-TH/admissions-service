@@ -14,7 +14,7 @@ module.exports = function (app) {
         .put(controller.update)
         .delete(controller.delete);
 
-    app.route('/api/admissions/webhook').all(policy.isAllowed)
+    app.route('/api/admissions/bot/webhook').all(policy.isAllowed)
         .post(controller.webhook);
 
     app.param('admissionId', controller.getByID);
