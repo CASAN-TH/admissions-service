@@ -45,6 +45,10 @@ var AdmissionSchema = new Schema({
         type: String,
         required: 'Please fill a Admissions phonenumber',
     },
+    school:{
+        type: String,
+        required: 'Please fill a Admissions school',
+    },
     
     created: {
         type: Date,

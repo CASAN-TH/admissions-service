@@ -33,7 +33,8 @@ describe('Admission CRUD routes tests', function () {
             firstname: 'first name',
             lastname: 'last name',
             email: 'test@email.com',
-            roles: ['user']
+            roles: ['user'],
+            ref1: '1234'
         };
         token = jwt.sign(_.omit(credentials, 'password'), config.jwt.secret, {
             expiresIn: 2 * 60 * 60 * 1000
@@ -87,6 +88,7 @@ describe('Admission CRUD routes tests', function () {
                         assert.equal(resp.data.fatherfullname, mockup.fatherfullname);
                         assert.equal(resp.data.motherfullname, mockup.motherfullname);
                         assert.equal(resp.data.phonenumber, mockup.phonenumber);
+                        assert.equal(resp.data.school, credentials.ref1);
                         done();
                     });
             });

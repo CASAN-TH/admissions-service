@@ -16,7 +16,7 @@ exports.getList = function (req, res) {
     }
     query.skip = size * (pageNo - 1);
     query.limit = size;
-        Admission.find({}, {}, query, function (err, datas) {
+        Admission.find({school: req.user.ref1}, {}, query, function (err, datas) {
             if (err) {
                 return res.status(400).send({
                     status: 400,
@@ -34,6 +34,7 @@ exports.getList = function (req, res) {
 exports.create = function (req, res) {
     var newAdmission = new Admission (req.body);
     newAdmission.createby = req.user;
+    newAdmission.school = req.user.ref1;
     newAdmission.save(function (err, data) {
         if (err) {
             return res.status(400).send({
