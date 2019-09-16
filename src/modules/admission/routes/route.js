@@ -14,6 +14,9 @@ module.exports = function (app) {
         .put(controller.update)
         .delete(controller.delete);
 
+    app.route('/api/admissions/webhook').all(policy.isAllowed)
+        .post(controller.webhook);
+
     app.param('admissionId', controller.getByID);
 
     /**
@@ -24,6 +27,6 @@ module.exports = function (app) {
      */
     // mq.consume('exchange', 'qname', 'keymsg', (msg)=>{
     //     console.log(JSON.parse(msg.content));
-        
+
     // });
 }
