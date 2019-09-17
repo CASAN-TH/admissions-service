@@ -16,23 +16,23 @@ exports.getList = function (req, res) {
     }
     query.skip = size * (pageNo - 1);
     query.limit = size;
-        Admission.find({school: req.user.ref1}, {}, query, function (err, datas) {
-            if (err) {
-                return res.status(400).send({
-                    status: 400,
-                    message: errorHandler.getErrorMessage(err)
-                });
-            } else {
-                res.jsonp({
-                    status: 200,
-                    data: datas
-                });
-            };
-        });
+    Admission.find({ school: req.user.ref1 }, {}, query, function (err, datas) {
+        if (err) {
+            return res.status(400).send({
+                status: 400,
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            res.jsonp({
+                status: 200,
+                data: datas
+            });
+        };
+    });
 };
 
 exports.create = function (req, res) {
-    var newAdmission = new Admission (req.body);
+    var newAdmission = new Admission(req.body);
     newAdmission.createby = req.user;
     newAdmission.school = req.user.ref1;
     newAdmission.save(function (err, data) {
@@ -118,19 +118,24 @@ exports.delete = function (req, res) {
     });
 };
 
-exports.webhook = function(req,res){
-    
-    var newAdmission = new Admission ({
+exports.webhook = function (req, res) {
+
+    var newAdmission = new Admission({
         class: req.body.queryResult.parameters.classType,
-        prefix: "-",
+        prefix: req.body.queryResult.parameters.title - name,
         firstname: req.body.queryResult.parameters.studentname.split(' ')[0],
         lastname: req.body.queryResult.parameters.studentname.split(' ')[1],
         identificationnumber: req.body.queryResult.parameters.identificationID,
-        birthday:"-",
-        sex:"-",
+        birthday: "-",
+        sex: req.body.queryResult.parameters.title - name === "เด็กชาย"
+            || req.body.queryResult.parameters.title - name === "ด.ช."
+            || req.body.queryResult.parameters.title - name === "ด.ช"
+            || req.body.queryResult.parameters.title - name === "ดช"
+            || req.body.queryResult.parameters.title - name === "นาย"
+            ? "ชาย" : "หญิง",
         fatherfullname: req.body.queryResult.parameters.fathername,
         motherfullname: req.body.queryResult.parameters.mothername,
-        phonenumber:"-"
+        phonenumber: req.body.queryResult.parameters.tel
     });
     newAdmission.createby = req.user;
     newAdmission.school = req.user.ref1;
