@@ -122,12 +122,17 @@ exports.webhook = function(req,res){
     
     var newAdmission = new Admission ({
         class: req.body.queryResult.parameters.classType,
-        prefix: "-",
+        prefix: req.body.queryResult.parameters.title-name,
         firstname: req.body.queryResult.parameters.studentname.split(' ')[0],
         lastname: req.body.queryResult.parameters.studentname.split(' ')[1],
         identificationnumber: req.body.queryResult.parameters.identificationID,
         birthday:"-",
-        sex:"-",
+        sex: req.body.queryResult.parameters.title-name === "เด็กชาย" 
+        || req.body.queryResult.parameters.title-name === "ด.ช." 
+        || req.body.queryResult.parameters.title-name === "ด.ช" 
+        || req.body.queryResult.parameters.title-name === "ดช" 
+        || req.body.queryResult.parameters.title-name === "นาย" 
+        ? "ชาย" : "หญิง",
         fatherfullname: req.body.queryResult.parameters.fathername,
         motherfullname: req.body.queryResult.parameters.mothername,
         phonenumber:"-"
