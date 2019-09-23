@@ -21,13 +21,17 @@ var AdmissionSchema = new Schema({
         type: String,
         required: 'Please fill a Admissions lastname',
     },
+    nickname: {
+        type: String,
+        required: 'Please fill a Admissions nickname',
+    },
     identificationnumber: {
         type: String,
         required: 'Please fill a Admissions identificationnumber',
     },
     birthday: {
         type: String,
-        required: 'Please fill a Admissions class',
+        required: 'Please fill a Admissions birthday',
     },
     sex: {
         type: String,
@@ -49,7 +53,6 @@ var AdmissionSchema = new Schema({
         type: String,
         required: 'Please fill a Admissions school',
     },
-    
     created: {
         type: Date,
         default: Date.now
