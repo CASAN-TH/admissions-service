@@ -20,6 +20,7 @@ describe('Admission CRUD routes tests', function () {
             prefix: 'เด็กหญิง',
             firstname: 'น้ำหวาน',
             lastname: 'เย็นชื่อใจ',
+            nickname: 'น้ำหวาน',
             identificationnumber: '1322432456768',
             birthday: '12/08/2016',
             sex: 'หญิง',
@@ -82,6 +83,7 @@ describe('Admission CRUD routes tests', function () {
                         assert.equal(resp.data.prefix, mockup.prefix);
                         assert.equal(resp.data.firstname, mockup.firstname);
                         assert.equal(resp.data.lastname, mockup.lastname);
+                        assert.equal(resp.data.nickname, mockup.nickname);
                         assert.equal(resp.data.identificationnumber, mockup.identificationnumber);
                         assert.equal(resp.data.birthday, mockup.birthday);
                         assert.equal(resp.data.sex, mockup.sex);
@@ -128,6 +130,7 @@ describe('Admission CRUD routes tests', function () {
                     prefix: '5',
                     firstname: '5',
                     lastname: '5',
+                    nickname: '5',
                     identificationnumber: '5',
                     birthday: '5',
                     sex: '5',
@@ -149,6 +152,7 @@ describe('Admission CRUD routes tests', function () {
                         assert.equal(resp.data.prefix, update.prefix);
                         assert.equal(resp.data.firstname, update.firstname);
                         assert.equal(resp.data.lastname, update.lastname);
+                        assert.equal(resp.data.nickname, update.nickname);
                         assert.equal(resp.data.identificationnumber, update.identificationnumber);
                         assert.equal(resp.data.birthday, update.birthday);
                         assert.equal(resp.data.sex, update.sex);
@@ -257,6 +261,37 @@ describe('Admission CRUD routes tests', function () {
                     .end(done);
             });
 
+    });
+
+    it('should be admission from chatbot webhhok use token', function(done){
+        
+        var chatbot = {
+            queryResult: {
+                parameters:{
+                    classType : 'ประถมศึกษาปีที่ 3',
+                    titleName : 'เด็กหญิง',
+                    studentname : 'น้ำหวาน เย็นชื่อใจ',
+                    nickname : 'น้ำหวาน',
+                    identificationID : '1322432456768',
+                    birthday : '12/08/2016',
+                    fathername : 'สมชาย เย็นชื่อใจ',
+                    mothername : 'สมศรี เย็นชื่อใจ',
+                    tel: '0948249655'
+                }
+            }
+        }
+        request(app)
+            .post('/api/admissions/bot/webhook')
+            .set('Authorization', 'Bearer ' + token)
+            .send(chatbot)
+            .expect(200)
+            .end(function (err, res) {
+                if (err) {
+                    return done(err);
+                }
+                var resp = res.body;
+                done();
+            });
     });
 
     afterEach(function (done) {
