@@ -127,7 +127,7 @@ exports.webhook = function (req, res) {
         lastname: req.body.queryResult.parameters.studentname.split(' ')[1],
         nickname: req.body.queryResult.parameters.nickname,
         identificationnumber: req.body.queryResult.parameters.identificationID,
-        birthday: "-",
+        birthday: req.body.queryResult.parameters.birthday,
         sex: req.body.queryResult.parameters.titleName === "เด็กชาย"
             || req.body.queryResult.parameters.titleName === "ด.ช."
             || req.body.queryResult.parameters.titleName === "ด.ช"
